@@ -1,0 +1,15 @@
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'PP Mori Regular';
+  src: url('./assets/fonts/PPMori/PPMori-Regular.ttf');
+}
+
+body {
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+}

@@ -1,0 +1,24 @@
+declare module "epic-spinners" {
+  export const AtomSpinner: any;
+  export const BreedingRhombusSpinner: any;
+  export const CirclesToRhombusesSpinner: any;
+  export const FingerprintSpinner: any;
+  export const FlowerSpinner: any;
+  export const FulfillingSquareSpinner: any;
+  export const FulfillingBouncingCircleSpinner: any;
+  export const HalfCircleSpinner: any;
+  export const HollowDotsSpinner: any;
+  export const IntersectingCirclesSpinner: any;
+  export const LoopingRhombusesSpinner: any;
+  export const OrbitSpinner: any;
+  export const PixelSpinner: any;
+  export const RadarSpinner: any;
+  export const ScalingSquaresSpinner: any;
+  export const IntersectingCircles: any;
+  export const LoopingRhombusesSpinner: any;
+  export const SelfBuildingSquareSpinner: any;
+  export const SemipolarSpinner: any;
+  export const SpringSpinner: any;
+  export const SwappingSquaresSpinner: any;
+  export const TrinityRingsSpinner: any;
+}

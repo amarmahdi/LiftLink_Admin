@@ -1,0 +1,34 @@
+{
+  "name": "liftlink-admin",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "format": "prettier .  --write"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.8.1",
+    "@vue/apollo-composable": "^4.0.0-beta.8",
+    "@vue/apollo-option": "^4.0.0-beta.5",
+    "epic-spinners": "^2.0.0",
+    "graphql": "^16.7.1",
+    "graphql-ws": "^5.14.0",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.4",
+    "vue-spinner": "^1.0.4",
+    "vuex": "^4.0.2",
+    "vuex-persistedstate": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/bootstrap": "^5.2.7",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "bootstrap": "^5.3.2",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vue-tsc": "^1.8.5"
+  }
+}
