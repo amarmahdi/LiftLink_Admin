@@ -13,12 +13,24 @@ import VehicleDetails from "../src/pages/vehicleManagement/pages/VehicleDetails.
 import EmployeeList from "../src/pages/employeeManagement/pages/EmployeeList.vue";
 import EmployeeDetails from "../src/pages/employeeManagement/pages/EmployeeDetails.vue";
 import Login from "../src/pages/auth/Login.vue";
+import Signup from "../src/pages/auth/Signup.vue";
 
 const routes = [
   {
     path: "/login",
     name: "Login",
     component: Login,
+    beforeEnter: (to: any, from: any, next: any) => {
+      guards.loginGuard(to, from, next);
+    },
+    afterEnter: (to: any, from: any, next: any) => {
+      guards.loginGuard(to, from, next);
+    },
+  },
+  {
+    path: "/signup",
+    name: "Signup",
+    component: Signup,
     beforeEnter: (to: any, from: any, next: any) => {
       guards.loginGuard(to, from, next);
     },

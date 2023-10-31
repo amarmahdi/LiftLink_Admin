@@ -43,8 +43,11 @@
             <div class="user2">
               <img class="male-11" src="./../assets/pngs/avatar.jpg" />
               <div class="frame-412">
-                <div class="amar-mahdi">
+                <div class="amar-mahdi" v-if="user.firstName || user.lastName">
                   {{ user.firstName }} {{ user.lastName }}
+                </div>
+                <div class="amar-mahdi" v-else>
+                  {{ currentDealership.dealershipName }}
                 </div>
                 <div class="administrator">
                   {{
@@ -113,6 +116,16 @@
                 <AddPerson />
               </template>
             </CustomButton>
+            <div class="spacer" />
+            <CustomButton
+              @click="showServiceModal = !showServiceModal"
+              title="Add Service Package"
+              v-if="showButton"
+            >
+              <template v-slot:icon>
+                <AddPerson />
+              </template>
+            </CustomButton>
           </div>
           <div
             class="sized-btn"
@@ -138,9 +151,9 @@
           </template>
         </CustomButton>
         <CustomButton
-          @click="changeRoute('/vehicle-management/add-vehicle')"
           title="Add New Vehicle"
           v-if="showAddVehicleButton"
+          @click="showVehicleAddModal = true"
         >
           <template v-slot:icon>
             <VehicleSvg color="#2E2C2F" />
@@ -299,6 +312,171 @@
         </div>
       </div>
     </Modal>
+
+    <Modal :height="'400px'" v-if="showServiceModal">
+      <div class="service-container">
+        <div class="modal-title-container">
+          <Titles title="Add New Dealership" />
+          <div class="action" @click="showServiceModal = false">
+            <Titles title="Exit window" />
+            <div class="vartical-line"></div>
+            <Exit />
+          </div>
+        </div>
+        <div class="spacer" />
+        <div class="form-container">
+          <div class="input-container">
+            <InputField
+              class="custom-input-container"
+              :label="`Name`"
+              v-model:inputValue="serviceName"
+            />
+            <textarea
+              class="custom-input-container-textarea"
+              placeholder="Description"
+              v-model="description"
+            ></textarea>
+          </div>
+        </div>
+        <div class="button-container">
+          <div class="button-service">
+            <CustomButton
+              title="Discard Changes"
+              :dark="true"
+              @click="showServiceModal = false"
+            />
+          </div>
+          <div class="button-service">
+            <CustomButton
+              title="Save Changes"
+              :dark="true"
+              @click="addServicePackage"
+            />
+          </div>
+        </div>
+      </div>
+    </Modal>
+    <!-- {
+  "input": {
+    "available": true,
+    "carColor": "",
+    "carImage": "",
+    "carInsurance": "",
+    "carMake": "",
+    "carModel": "",
+    "carName": "",
+    "carRegistration": "",
+    "carType": "",
+    "carVin": "",
+    "carYear": "",
+    "mileage": "",
+    "plateNumber": "",
+    "status": ""
+  }
+} -->
+    <Modal :height="'610px'" v-if="showVehicleAddModal">
+      <div class="service-container">
+        <div class="modal-title-container">
+          <Titles title="Add New Dealership" />
+          <div class="action">
+            <Titles title="Exit window" />
+            <div class="vartical-line"></div>
+            <Exit />
+          </div>
+        </div>
+        <div class="spacer" />
+        <div class="spacer" />
+        <div class="spacer" />
+        <div class="form-container">
+          <div class="dealership-logo-upload-container">
+            <div class="logo-img-container">
+              <img :src="vehicleImgData" alt="logo" class="vehicle-img" />
+            </div>
+            <div class="button-service">
+              <!-- <CustomButton title="Upload Vehicle " :dark="true" /> -->
+              <input
+                type="file"
+                class="file-button"
+                @change="getImgData($event.target.files[0])"
+              />
+            </div>
+          </div>
+          <div class="input-container">
+            <InputField
+              class="custom-input-container"
+              :label="`Make`"
+              v-model:input-value="carMake"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`Model`"
+              v-model:input-value="carModel"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`Year`"
+              v-model:input-value="carYear"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`Color`"
+              v-model:input-value="carColor"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`Type`"
+              v-model:input-value="carType"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`VIN`"
+              v-model:input-value="carVin"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`Plate Number`"
+              v-model:input-value="plateNumber"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`Registration`"
+              v-model:input-value="carRegistration"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`Insurance`"
+              v-model:input-value="carInsurance"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`Mileage`"
+              v-model:input-value="mileage"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`Status`"
+              v-model:input-value="status"
+            />
+          </div>
+        </div>
+        <div class="spacer" />
+        <div class="spacer" />
+        <div class="spacer" />
+        <div class="spacer" />
+        <div class="button-container">
+          <div class="button-service">
+            <CustomButton title="Discard Changes" :dark="true" />
+          </div>
+          <div class="button-service">
+            <CustomButton
+              title="Save Changes"
+              :dark="true"
+              @click="addVehicle"
+            />
+          </div>
+        </div>
+      </div>
+    </Modal>
   </div>
 </template>
 <script lang="ts">
@@ -321,6 +499,9 @@ import PinIcon from "../assets/svgs/pinIcon.vue";
 import SearchIcon from "../assets/svgs/searchIcon.vue";
 import Notifications from "../assets/svgs/confirmNotification.vue";
 import Close from "../assets/svgs/close.vue";
+import Titles from "./Titles.vue";
+import InputField from "./InputField.vue";
+import Exit from "../assets/svgs/exit.vue";
 import {
   SEARCH_USERS,
   GET_CONFIRMATION,
@@ -328,7 +509,10 @@ import {
   CONFIRM_REQUEST,
   REJECT_REQUEST,
   ADD_USER_TO_DEALERSHIP,
+  ADD_SERVICE_PACKAGE,
+  ADD_VEHICLE,
 } from "../services/gqlSrv/index";
+import { uploadImage } from "./../../firebase.config.js";
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
@@ -352,6 +536,9 @@ export default defineComponent({
     SearchIcon,
     Notifications,
     Close,
+    Titles,
+    InputField,
+    Exit,
   },
   props: {
     activePage: {
@@ -402,11 +589,31 @@ export default defineComponent({
       currentDealership: this.$store.getters.getCurrentDealership || "",
       showConfirmModal: false,
       confirmationNotificationData: [],
+      vehicleImgData: "",
+      vehicleData: "",
       selectedConfirmationId: "",
       notificationCount: 0,
       searchResults: [],
       selectedUser: {},
       showSelectionConfirmation: false,
+      showServiceModal: false,
+      showVehicleAddModal: false,
+      serviceName: "",
+      description: "",
+      available: false,
+      carColor: "",
+      carImage: "",
+      carInsurance: "",
+      carMake: "",
+      carModel: "",
+      carName: "",
+      carRegistration: "",
+      carType: "",
+      carVin: "",
+      carYear: "",
+      mileage: "",
+      plateNumber: "",
+      status: "",
     };
   },
   async mounted() {
@@ -548,11 +755,198 @@ export default defineComponent({
         this.search(e.target.value);
       }, 500);
     },
+    async addServicePackage() {
+      try {
+        const {
+          data: { addServicePackage },
+        } = await this.$apollo.mutate({
+          mutation: ADD_SERVICE_PACKAGE,
+          variables: {
+            input: {
+              dealershipId:
+                this.$store.getters.getCurrentDealership.dealershipId,
+              servicePackageDescription: this.description,
+              servicePackageName: this.serviceName,
+              servicePackageDuration: "N/A",
+              servicePackagePrice: "N/A",
+              servicePackageType: "N/A",
+            },
+          },
+        });
+        if (addServicePackage) {
+          console.log(addServicePackage);
+          this.showServiceModal = false;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    getImgData(e: any) {
+      const file = e;
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.vehicleData = e;
+        this.vehicleImgData = reader.result as string;
+      };
+      reader.onerror = (error) => {
+        console.log(error);
+      };
+    },
+    async addVehicle() {
+      try {
+        const uploadToFirebase = await uploadImage(this.vehicleData);
+        console.log(uploadToFirebase);
+        const {
+          data: { addVehicle },
+        } = await this.$apollo.mutate({
+          mutation: ADD_VEHICLE,
+          variables: {
+            dealershipId: this.$store.getters.getCurrentDealership.dealershipId,
+            input: {
+              available: true,
+              carColor: this.carColor,
+              carImage: uploadToFirebase,
+              carInsurance: this.carInsurance,
+              carMake: this.carMake,
+              carModel: this.carModel,
+              carName: this.carName,
+              carRegistration: this.carRegistration,
+              carType: this.carType,
+              carVin: this.carVin,
+              carYear: this.carYear,
+              mileage: this.mileage,
+              plateNumber: this.plateNumber,
+              status: this.status,
+            },
+          },
+        });
+        if (addVehicle) {
+          console.log(addVehicle);
+          this.showVehicleAddModal = false;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 });
 </script>
 
 <style scoped>
+.vehicle-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+}
+.input-container {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 20px;
+  flex: 1 0;
+  flex-wrap: wrap;
+}
+.custom-input-container {
+  margin-top: 0;
+}
+
+.custom-input-container-textarea {
+  margin-top: 0;
+  height: 100px;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #c4c4c4;
+  padding: 10px;
+  font-size: 14px;
+  font-family: "PP Mori", sans-serif;
+  color: #2e2c2f;
+  resize: none;
+}
+
+.action {
+  display: flex;
+  height: 32px;
+  padding: 0px 8px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vartical-line {
+  display: flex;
+  padding-left: 0px;
+  align-items: center;
+  align-content: space-between;
+  gap: 5.366px;
+  border-left: 0.537px solid rgba(99, 163, 117, 0.6);
+}
+
+.service-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  padding: 20px;
+  width: 95%;
+  height: 100%;
+}
+
+.modal-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+.form-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+  align-self: stretch;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+  width: 100%;
+  position: absolute;
+  bottom: 20px;
+}
+
+.button-service {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 200px;
+}
+
+.dealership-logo-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.logo-img-container {
+  width: 80%;
+  height: 148px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  background: lightgray 50% / cover no-repeat;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.spacer {
+  width: 10px;
+  height: 10px;
+}
 .search-results {
   position: absolute;
   top: 100px;

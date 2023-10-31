@@ -33,7 +33,7 @@
 import { defineComponent } from "vue";
 import TableVue from "../../../components/Table.vue";
 import {
-  GET_ASSIGNED_ORDER_SUBSCRIPTION,
+  // GET_ASSIGNED_ORDER_SUBSCRIPTION,
   ORDERS,
 } from "../../../services/gqlSrv";
 
@@ -55,41 +55,41 @@ export default defineComponent({
         });
       }
     });
-    const observer = this.$apollo.subscribe({
-      query: GET_ASSIGNED_ORDER_SUBSCRIPTION,
-    });
-    observer.subscribe({
-      next: (data: any) => {
-        const { orderCreated } = data.data;
-        const newTebleData = [
-          orderCreated.orderId.toUpperCase(),
-          orderCreated.customer.firstName +
-            " " +
-            orderCreated.customer.lastName,
-          orderCreated.serviceType.servicePackageName,
-          orderCreated.vehicle.carName + " " + orderCreated.vehicle.carMake,
-          {
-            item: orderCreated.orderDeliveryDate,
-            type: "dateTime",
-          },
-          {
-            item: orderCreated.orderStatus,
-            type: "status",
-            error: orderCreated.orderStatus !== "PENDING",
-          },
-        ];
-        const ntd = [newTebleData, ...this.tableData];
-        this.tableData = ntd;
-      },
-      error: (error: any) => {
-        console.log(error);
-        console.log("error");
-      },
-      start: (start: any) => {
-        console.log(start);
-        console.log("start");
-      },
-    });
+    // const observer = this.$apollo.subscribe({
+    //   query: GET_ASSIGNED_ORDER_SUBSCRIPTION,
+    // });
+    // observer.subscribe({
+    //   next: (data: any) => {
+    //     const { orderCreated } = data.data;
+    //     const newTebleData = [
+    //       orderCreated.orderId.toUpperCase(),
+    //       orderCreated.customer.firstName +
+    //         " " +
+    //         orderCreated.customer.lastName,
+    //       orderCreated.serviceType.servicePackageName,
+    //       orderCreated.vehicle.carName + " " + orderCreated.vehicle.carMake,
+    //       {
+    //         item: orderCreated.orderDeliveryDate,
+    //         type: "dateTime",
+    //       },
+    //       {
+    //         item: orderCreated.orderStatus,
+    //         type: "status",
+    //         error: orderCreated.orderStatus !== "PENDING",
+    //       },
+    //     ];
+    //     const ntd = [newTebleData, ...this.tableData];
+    //     this.tableData = ntd;
+    //   },
+    //   error: (error: any) => {
+    //     console.log(error);
+    //     console.log("error");
+    //   },
+    //   start: (start: any) => {
+    //     console.log(start);
+    //     console.log("start");
+    //   },
+    // });
   },
   methods: {
     async getOrders() {
@@ -97,6 +97,7 @@ export default defineComponent({
       try {
         const { data } = await this.$apollo.query({
           query: ORDERS,
+          fetchPolicy: "network-only",
           variables: {
             dealershipId: this.$store.getters.getCurrentDealership.dealershipId,
           },

@@ -27,6 +27,59 @@ export const LOGIN = gql`
   }
 `;
 
+export const SIGNUP = gql`
+  mutation ($input: UserInput!) {
+    register(input: $input) {
+      token
+      user {
+        accountType
+        dateJoined
+        email
+        firstName
+        isActive
+        isStaff
+        isSuperuser
+        lastLogin
+        lastName
+        phoneNumber
+        userId
+        username
+        dealerships {
+          dealershipId
+          dealershipName
+          dealershipAddress
+        }
+      }
+    }
+  }
+`;
+
+export const REGISTER_DEALERSHIP = gql`
+  mutation ($input: DealershipInput!) {
+    addDealership(input: $input) {
+      dealershipId
+      dealershipName
+      dealershipAddress
+    }
+  }
+`;
+
+export const ADD_SERVICE_PACKAGE = gql`
+  mutation ($input: ServicePackageInput!) {
+    createServicePackage(input: $input) {
+      dealershipId
+    }
+  }
+`;
+
+export const ADD_VEHICLE = gql`
+  mutation ($input: CarInfoInput!, $dealershipId: String) {
+    addCarInfo(input: $input, dealershipId: $dealershipId) {
+      carId
+    }
+  }
+`;
+
 export const ACCOUNTS = gql`
   query accounts {
     accounts {

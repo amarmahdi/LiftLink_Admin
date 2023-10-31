@@ -211,6 +211,7 @@ export default defineComponent({
         const {
           data: { getOrder },
         } = await this.$apollo.query({
+          fetchPolicy: "network-only",
           query: ORDER,
           variables: {
             orderId: this.$route.params.id.toString(),
@@ -240,6 +241,7 @@ export default defineComponent({
         const {
           data: { getAvailableCarInfo },
         } = await this.$apollo.query({
+          fetchPolicy: "network-only",
           query: GET_AVAILABLE_VEHICLES,
           variables: {
             dealershipId: this.$store.getters.getCurrentDealership.dealershipId,
@@ -256,6 +258,7 @@ export default defineComponent({
         const {
           data: { getAvailableDriversInDealership },
         } = await this.$apollo.query({
+          fetchPolicy: "network-only",
           query: GET_AVAILABLE_DRIVERS,
           variables: {
             dealershipId: this.$store.getters.getCurrentDealership.dealershipId,

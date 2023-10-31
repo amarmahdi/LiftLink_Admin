@@ -12,7 +12,7 @@ import { createClient } from "graphql-ws";
 
 // Create an http link:
 const httpLink = createHttpLink({
-  uri: "http://127.0.0.1:8000/graphql/",
+  uri: "http://178.128.224.133/graphql/",
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",

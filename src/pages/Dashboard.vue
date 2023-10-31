@@ -262,6 +262,84 @@
         </Card>
       </div>
     </div>
+    <Modal :height="'550px'" v-if="currentDealership === ''">
+      <div class="container">
+        <div class="modal-title-container">
+          <Titles title="Add New Dealership" />
+          <div class="action">
+            <Titles title="Exit window" />
+            <div class="vartical-line"></div>
+            <Exit />
+          </div>
+        </div>
+        <div class="spacer" />
+        <div class="form-container">
+          <div class="dealership-logo-upload-container">
+            <div class="logo-img-container">
+              <img src="../../assets/pngs/Group 1.png" alt="logo" />
+            </div>
+          </div>
+          <div class="input-container">
+            <InputField
+              class="custom-input-container"
+              :label="`Name`"
+              v-model:input-value="name"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`Address`"
+              v-model:input-value="address"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`City`"
+              v-model:input-value="city"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`Contry`"
+              v-model:input-value="country"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`Province`"
+              v-model:input-value="province"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`Zip Code`"
+              v-model:input-value="zipCode"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`Phone`"
+              v-model:input-value="phone"
+            />
+            <InputField
+              class="custom-input-container"
+              :label="`Website`"
+              v-model:input-value="website"
+            />
+          </div>
+        </div>
+        <div class="spacer" />
+        <div class="spacer" />
+        <div class="spacer" />
+        <div class="spacer" />
+        <div class="button-container">
+          <div class="button">
+            <CustomButton title="Discard Changes" :dark="true" />
+          </div>
+          <div class="button">
+            <CustomButton
+              title="Save Changes"
+              :dark="true"
+              @click="registerDealership"
+            />
+          </div>
+        </div>
+      </div>
+    </Modal>
   </div>
 </template>
 <script lang="ts">
@@ -272,7 +350,16 @@ import BusinessSvg from "../assets/svgs/business.vue";
 import ServiceSvg from "../assets/svgs/service.vue";
 import UserCheckSvg from "../assets/svgs/userCheck.vue";
 import LinkSvg from "../assets/svgs/link.vue";
-import { NUMBER_OF_DRIVERS, NUMBER_OF_MANAGERS } from "../services/gqlSrv";
+import {
+  NUMBER_OF_DRIVERS,
+  NUMBER_OF_MANAGERS,
+  REGISTER_DEALERSHIP,
+} from "../services/gqlSrv";
+import Modal from "../components/Modal.vue";
+import InputField from "../components/InputField.vue";
+import Titles from "../components/Titles.vue";
+import Exit from "../assets/svgs/exit.vue";
+import CustomButton from "../components/CustomButton.vue";
 
 export default defineComponent({
   components: {
@@ -282,12 +369,25 @@ export default defineComponent({
     ServiceSvg,
     UserCheckSvg,
     LinkSvg,
+    Modal,
+    InputField,
+    Titles,
+    Exit,
+    CustomButton,
   },
   data() {
     return {
       numberOfDrivers: 0,
       numberOfManagers: 0,
       currentDealership: this.$store.state.core.currentDealership || "",
+      name: "",
+      address: "",
+      city: "",
+      country: "",
+      province: "",
+      zipCode: "",
+      phone: "",
+      website: "",
     };
   },
   mounted() {
@@ -327,10 +427,146 @@ export default defineComponent({
         console.log(error, "hello from getnumber of drivers");
       }
     },
+    async registerDealership() {
+      try {
+        /*     "dealershipAddress": null,
+    "dealershipCountry": null,
+    "dealershipCity": null,
+    "dealershipName": null,
+    "dealershipEmail": null,
+    "dealershipLogo": null,
+    "dealershipPhoneNumber": null,
+    "dealershipZipCode": null,
+    "dealershipWebsite": null,
+    "dealershipState": null, */
+        console.log(
+          this.name,
+          this.address,
+          this.city,
+          this.country,
+          this.province,
+          this.zipCode,
+          this.phone,
+          this.website
+        );
+        const { data } = await this.$apollo.mutate({
+          mutation: REGISTER_DEALERSHIP,
+          variables: {
+            input: {
+              dealershipName: this.name,
+              dealershipAddress: this.address,
+              dealershipCity: this.city,
+              dealershipCountry: this.country,
+              dealershipState: this.province,
+              dealershipZipCode: this.zipCode,
+              dealershipPhoneNumber: this.phone,
+              dealershipWebsite: this.website,
+            },
+          },
+        });
+        if (data) {
+          console.log(data);
+          return;
+        }
+      } catch (error) {
+        console.log(error, "hello from getnumber of drivers");
+      }
+    },
   },
 });
 </script>
 <style scoped>
+.spacer {
+  height: 20px;
+}
+.input-container {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 20px;
+  flex: 1 0;
+  flex-wrap: wrap;
+}
+.custom-input-container {
+  margin-top: 0;
+}
+
+.action {
+  display: flex;
+  height: 32px;
+  padding: 0px 8px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vartical-line {
+  display: flex;
+  padding-left: 0px;
+  align-items: center;
+  align-content: space-between;
+  gap: 5.366px;
+  border-left: 0.537px solid rgba(99, 163, 117, 0.6);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  padding: 20px;
+  width: 95%;
+  height: 100%;
+}
+
+.modal-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+.form-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+  align-self: stretch;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+  width: 100%;
+}
+
+.button {
+  display: flex;
+  width: 222px;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+}
+
+.dealership-logo-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.logo-img-container {
+  width: 148px;
+  height: 148px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  background: lightgray 50% / cover no-repeat;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
 .search-bar,
 .search-bar * {
   box-sizing: border-box;
