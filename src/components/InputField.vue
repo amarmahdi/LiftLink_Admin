@@ -8,7 +8,7 @@
         <div class="base3"></div>
         <div class="base4"></div>
       </div>
-      <img class="male-11" src="male-11.png" v-if="showPicture" />
+      <!-- <img class="male-11" src="male-11.png" v-if="showPicture" /> -->
       <input class="placeholder-value" :type="type" :value="inputValue" @input="updateValue" />
     </div>
   </div>

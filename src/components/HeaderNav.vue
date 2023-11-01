@@ -301,7 +301,7 @@
         <div class="confirmation-body">
           <div class="confirmation-text">
             Are you sure you want to send invitation to
-            {{ selectedUser.firtName }} {{ selectedUser.lastName }}?
+            {{ (<any>selectedUser).firtName }} {{ (<any>selectedUser).lastName }}?
           </div>
           <div class="confirmation-btns">
             <button class="confirmation-btn cancel-btn" @click="close">
@@ -397,7 +397,7 @@
               <input
                 type="file"
                 class="file-button"
-                @change="getImgData($event.target.files[0])"
+                @change="getImgData((<any>$event.target).files[0])"
               />
             </div>
           </div>

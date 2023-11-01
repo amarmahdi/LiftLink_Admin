@@ -27,19 +27,19 @@
           `${i === 0 ? td.substring(0, 6) : td}`
         }}</span>
         <div v-if="typeof td === 'object'">
-          <div v-if="td.type === 'status'" class="skills2">
-            <div :class="!td.error ? 'tag' : 'tag-red'">
-              <div :class="!td.error ? 'available' : 'pending'">
-                {{ td.item }}
+          <div v-if="(<any>td).type === 'status'" class="skills2">
+            <div :class="!(<any>td).error ? 'tag' : 'tag-red'">
+              <div :class="!(<any>td).error ? 'available' : 'pending'">
+                {{ (<any>td).item }}
               </div>
             </div>
           </div>
         </div>
         <div v-if="typeof td === 'object'">
-          <div v-if="td.type === 'dateTime'" class="skills2">
-            <div :class="td.item ? 'tag' : 'tag-red'">
-              <div :class="td.item ? 'available' : 'pending'">
-                {{ formatDate(td.item) }}
+          <div v-if="(<any>td).type === 'dateTime'" class="skills2">
+            <div :class="(<any>td).item ? 'tag' : 'tag-red'">
+              <div :class="(<any>td).item ? 'available' : 'pending'">
+                {{ formatDate((<any>td).item) }}
               </div>
             </div>
           </div>

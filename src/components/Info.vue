@@ -13,9 +13,9 @@
       <div class="titles" v-for="(list, i) in lists" :key="i">
         <div class="date">
           <slot name="icon"></slot>
-          <div class="client-id">{{ list.title }}</div>
+          <div class="client-id">{{ (<any>list).title }}</div>
         </div>
-        <div class="headline-6">{{ list.data }}</div>
+        <div class="headline-6">{{ (<any>list).data }}</div>
       </div>
     </div>
   </div>

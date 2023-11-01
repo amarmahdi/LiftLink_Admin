@@ -276,7 +276,7 @@
         <div class="form-container">
           <div class="dealership-logo-upload-container">
             <div class="logo-img-container">
-              <img src="../../assets/pngs/Group 1.png" alt="logo" />
+              <!-- <img src="../../assets/pngs/Group 1.png" alt="logo" /> -->
             </div>
           </div>
           <div class="input-container">

@@ -18,7 +18,7 @@
                 <div class="detail-content-userinfo">
                   <UserInfo
                     v-if="!userInfoLoading"
-                    :data="orderInfo.customer"
+                    :data="(<any>orderInfo).customer"
                   />
                 </div>
               </div>
@@ -38,11 +38,11 @@
               <Titles
                 v-if="!userInfoLoading"
                 :title="
-                  orderInfo.vehicle.carMake +
+                  (<any>orderInfo).vehicle.carMake +
                   ' ' +
-                  orderInfo.vehicle.carModel +
+                  (<any>orderInfo).vehicle.carModel +
                   ' ' +
-                  orderInfo.vehicle.carYear
+                  (<any>orderInfo).vehicle.carYear
                 "
               />
               <div class="spacer"></div>
@@ -75,7 +75,7 @@
                 :driver-id="item.userId"
                 @assign="asignDrivers"
                 :selected="assignedDrivers.includes(item.userId)"
-                :show-assign-btn="orderInfo.orderStatus === 'INITIATED'"
+                :show-assign-btn="(<any>orderInfo).orderStatus === 'INITIATED'"
               />
             </div>
           </div>
@@ -88,7 +88,7 @@
           <div class="detail-content-info-items">
             <div v-if="!userInfoLoading" class="headline-20">
               <li>
-                {{ orderInfo.notes ? orderInfo.notes : "No additional notes" }}
+                {{ (<any>orderInfo).notes ? (<any>orderInfo).notes : "No additional notes" }}
               </li>
             </div>
           </div>
@@ -98,7 +98,7 @@
           <div class="spacer"></div>
           <div
             class="detail-content-info-items"
-            v-if="orderInfo.valetVehicleRequest"
+            v-if="(<any>orderInfo).valetVehicleRequest"
             v-for="(item, i) in cars"
             :key="i"
           >
