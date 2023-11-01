@@ -87,14 +87,14 @@
                 v-for="(item, i) in confirmationNotificationData"
                 :key="i"
                 class="dropdown-item"
-                @click="onNotificationSelect(item.confirmationId)"
+                @click="onNotificationSelect((<any>item).confirmationId)"
               >
                 <div class="company-logo">
                   <img class="company-logo-1" src="./../assets/pngs/user.png" />
                 </div>
                 <div class="company-name">
                   <div class="company-name-1">
-                    {{ item.dealership.dealershipName }}
+                    {{ (<any>item).dealership.dealershipName }}
                   </div>
                   <div class="company-name-2">
                     Sent you an invitation to join the dealership!
@@ -171,7 +171,7 @@
           :key="i"
           class="dealership-btn"
         >
-          {{ item.dealershipName }}
+          {{ (<any>item).dealershipName }}
         </button>
       </div>
     </Modal>
@@ -229,9 +229,9 @@
             </div>
             <div class="driver-info">
               <div class="driver-name">
-                {{ item.firstName }} {{ item.lastName }}
+                {{ (<any>item).firstName }} {{ (<any>item).lastName }}
               </div>
-              <div class="driver-email">{{ item.email }}</div>
+              <div class="driver-email">{{ (<any>item).email }}</div>
             </div>
           </div>
         </div>
@@ -264,8 +264,8 @@
           <div class="confirmation-text">
             Are you sure you want to join
             {{
-              confirmationNotificationData.find(
-                (item) => item.confirmationId === selectedConfirmationId
+              (<any>confirmationNotificationData).find(
+                (item: any) => item.confirmationId === selectedConfirmationId
               ).dealership.dealershipName
             }}?
           </div>
@@ -693,7 +693,7 @@ export default defineComponent({
           variables: {
             dealershipName:
               this.$store.getters.getCurrentDealership.dealershipName,
-            userId: this.selectedUser.userId,
+            userId: (<any>this.selectedUser).userId,
           },
         });
         if (data) {

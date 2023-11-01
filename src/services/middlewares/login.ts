@@ -1,7 +1,7 @@
 import { store } from '../store'
 import router from '../../../routes'
 
-const token = store.state.core.token
+const token = (<any>store.state).core.token
 
 export const loginGuard = (_to: any, _from: any, next: any) => {
   if (token) {

@@ -70,11 +70,11 @@
               <ItemVue
                 v-for="(item, i) in drivers"
                 :key="i"
-                :full-name="item.firstName + ' ' + item.lastName"
-                :status="item.isActive ? 'Active' : 'Not Available'"
-                :driver-id="item.userId"
+                :full-name="(<any>item).firstName + ' ' + (<any>item).lastName"
+                :status="(<any>item).isActive ? 'Active' : 'Not Available'"
+                :driver-id="(<any>item).userId"
                 @assign="asignDrivers"
-                :selected="assignedDrivers.includes(item.userId)"
+                :selected="assignedDrivers.includes((<any>item).userId as never)"
                 :show-assign-btn="(<any>orderInfo).orderStatus === 'INITIATED'"
               />
             </div>
@@ -106,13 +106,13 @@
               <div class="vehicle-id">
                 <Titles title="Vehicle ID" :title-type="2" />
                 <Titles
-                  :title="'#' + item.carId.substring(0, 6).toUpperCase()"
+                  :title="'#' + (<any>item).carId.substring(0, 6).toUpperCase()"
                   :title-type="4"
                 />
               </div>
               <div class="btn-continer">
                 <CustomButton
-                  @click="assignVehicle(item.carId)"
+                  @click="assignVehicle((<any>item).carId)"
                   title="Assign Loaner Vehicle"
                   v-if="!selectedVehicleId || selectedVehicleId === ''"
                 >
@@ -121,9 +121,9 @@
                   </template>
                 </CustomButton>
                 <CustomButton
-                  @click="assignVehicle(item.carId)"
+                  @click="assignVehicle((<any>item).carId)"
                   title="Assign Loaner Vehicle"
-                  v-if="selectedVehicleId === item.carId"
+                  v-if="selectedVehicleId === (<any>item).carId"
                   :dark="true"
                 >
                   <template v-slot:icon>
@@ -197,11 +197,11 @@ export default defineComponent({
       valetVehicleRequest: "",
     });
     await this.getOrderInfo();
-    if (this.orderInfo.orderStatus === "INITIATED") {
+    if ((<any>this.orderInfo).orderStatus === "INITIATED") {
       await this.getVehicles();
       await this.getDrivers();
     } else {
-      this.drivers.push(this.orderInfo.driver);
+      this.drivers.push((<any>this.orderInfo).driver as never);
     }
   },
   methods: {
@@ -272,13 +272,13 @@ export default defineComponent({
     async asignDrivers(e: any) {
       const exists = this.assignedDrivers.find((item) => item === e);
       if (exists) {
-        const index = this.assignedDrivers.indexOf(e);
+        const index = this.assignedDrivers.indexOf(e as never);
         this.assignedDrivers.splice(index, 1);
         this.$store.dispatch("setOrder", {
           assignedDrivers: this.assignedDrivers,
         });
       } else {
-        this.assignedDrivers.push(e);
+        this.assignedDrivers.push(e as never);
         const order = this.$store.getters.getOrder;
         this.$store.dispatch("setOrder", {
           ...order,

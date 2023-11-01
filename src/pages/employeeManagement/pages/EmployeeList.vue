@@ -109,7 +109,7 @@ export default defineComponent({
           },
         });
         if (data) {
-          data.getEmployeesInDealership.forEach((element) => {
+          data.getEmployeesInDealership.forEach((element: any) => {
             const newTebleData = [
               element.userId.toUpperCase(),
               element.firstName + " " + element.lastName,
@@ -129,7 +129,7 @@ export default defineComponent({
               },
             ];
             const ntd = [newTebleData, ...this.tableData];
-            this.tableData = ntd;
+            this.tableData = ntd as any;
           });
           console.log(data.getEmployeesInDealership);
         }

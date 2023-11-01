@@ -16,7 +16,7 @@ const httpLink = createHttpLink({
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
-    Authorization: `JWT ${store.state.core.token}`,
+    Authorization: `JWT ${(<any>store.state).core.token}`,
   },
 });
 
@@ -33,7 +33,7 @@ const wsLink = new GraphQLWsLink(
       pong: () => console.log("ws pong"),
     },
     connectionParams: () => ({
-      Authorization: `JWT ${store.state.core.token}`,
+      Authorization: `JWT ${(<any>store.state).core.token}`,
     }),
     shouldRetry: (error) => {
       console.log("ws shouldRetry", error);

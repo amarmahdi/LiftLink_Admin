@@ -67,11 +67,11 @@ export default defineComponent({
       this.routeList = [];
       this.$route.matched.map((route) => {
         const rt = route.path.split("/");
-        rt.map((r: any) => {
-          if (r !== "" && this.routeList.indexOf(r) === -1) {
+        rt.map((r) => {
+          if (r !== "" && this.routeList.indexOf(r as never) === -1) {
             const rVal = r.split("-").join(" ");
-            if (this.routeList.indexOf(rVal) === -1 && rVal !== ":id") {
-              this.routeList.push(rVal);
+            if (this.routeList.indexOf((rVal as never)) === -1 && rVal !== ":id") {
+              this.routeList.push((rVal as never));
             }
           }
         });

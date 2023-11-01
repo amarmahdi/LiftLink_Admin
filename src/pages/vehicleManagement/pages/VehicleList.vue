@@ -18,18 +18,18 @@
       v-for="(item, i) in cars"
       :key="i"
       :tabel-data="[
-        item.carId.toUpperCase(),
-        item.carMake + ' ' + item.carModel,
-        item.plateNumber,
-        item.carType.toUpperCase(),
+        (<any>item).carId.toUpperCase(),
+        (<any>item).carMake + ' ' + (<any>item).carModel,
+        (<any>item).plateNumber,
+        (<any>item).carType.toUpperCase(),
         {
-          item: item.createdDate,
+          item: (<any>item).createdDate,
           type: 'dateTime',
         },
         {
-          item: item.available ? 'Available' : 'Unavailable',
+          item: (<any>item).available ? 'Available' : 'Unavailable',
           type: 'status',
-          error: !item.available,
+          error: !(<any>item).available,
         },
       ]"
     />
